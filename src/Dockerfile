@@ -11,8 +11,8 @@ RUN apt update && \
     apt install -y python python-dev libffi6 libffi-dev libssl-dev curl build-essential procps wget && \
     curl -L 'https://bootstrap.pypa.io/get-pip.py' | python && \
     pip install -U cffi certbot && \
-    wget https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem >> /etc/letsencrypt/ssl-dhparams.pem && \
-    wget https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf >> /etc/letsencrypt/options-ssl-nginx.conf && \
+    wget https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem -O /etc/nginx/ssl-dhparams.pem && \
+    wget https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf -O /etc/nginx/options-ssl-nginx.conf && \
     apt remove --purge -y python-dev build-essential libffi-dev libssl-dev curl wget && \
     apt-get autoremove -y && \
     apt-get clean && \

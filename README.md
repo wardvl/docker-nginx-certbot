@@ -18,6 +18,8 @@ server {
     server_name         server.company.com;
     ssl_certificate     /etc/letsencrypt/live/server.company.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/server.company.com/privkey.pem;
+    include /etc/nginx/options-ssl-nginx.conf;
+    ssl_dhparam /etc/nginx/dhparam.pem;
 
     location / {
         ...
@@ -84,6 +86,9 @@ volumes:
 ```
 
 # Changelog
+
+### 1.1
+- Added `/etc/nginx/ssl-dhparams.pem`and `options-ssl-nginx.conf` from certbot repository
 
 ### 1.0
 - Many improvements thanks to contributors from across the globe.  Together, we have drastically reduced the amount of customization needed; configs can be mounted directly into a prebuilt image, and the configurations can even be templated.
