@@ -1,5 +1,5 @@
 FROM nginx
-LABEL maintainer="Elliot Saba <staticfloat@gmail.com>, Valder Gallo <valergallo@gmail.com>, Bruno Zell <bruno.zzell@gmail.com>"
+LABEL maintainer="Elliot Saba <staticfloat@gmail.com>, Valder Gallo <valergallo@gmail.com>, Bruno Zell <bruno.zzell@gmail.com>, Ward Vanlerberghe <ward.vanlerberghe@gmail.com"
 
 VOLUME /etc/letsencrypt
 EXPOSE 80
@@ -8,10 +8,12 @@ EXPOSE 443
 # Do this apt/pip stuff all in one RUN command to avoid creating large
 # intermediate layers on non-squashable docker installs
 RUN apt update && \
-    apt install -y python python-dev libffi6 libffi-dev libssl-dev curl build-essential procps && \
+    apt install -y python python-dev libffi6 libffi-dev libssl-dev curl build-essential procps wget && \
     curl -L 'https://bootstrap.pypa.io/get-pip.py' | python && \
     pip install -U cffi certbot && \
-    apt remove --purge -y python-dev build-essential libffi-dev libssl-dev curl && \
+    wget https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem >> /etc/letsencrypt/ssl-dhparams.pem && \
+    wget https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf >> /etc/letsencrypt/options-ssl-nginx.conf && \
+    apt remove --purge -y python-dev build-essential libffi-dev libssl-dev curl wget && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
