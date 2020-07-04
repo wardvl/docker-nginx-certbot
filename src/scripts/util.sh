@@ -15,7 +15,7 @@ error() {
 # /etc/letsencrypt/live/<primary_domain_name>/privkey.pem
 parse_domains() {
     # For each configuration file in /etc/nginx/conf.d/*.conf*
-    for conf_file in /etc/nginx/conf.d/*.conf*; do
+    for conf_file in /opt/nginx/http.conf.d/*.conf*; do
         sed -n -r -e 's&^\s*ssl_certificate_key\s*\/etc/letsencrypt/live/(.*)/privkey.pem;\s*(#.*)?$&\1&p' $conf_file | xargs echo
     done
 }
@@ -41,7 +41,7 @@ keyfiles_exist() {
 # Helper function that sifts through /etc/nginx/conf.d/, looking for configs
 # that don't have their keyfiles yet, and disabling them through renaming
 auto_enable_configs() {
-    for conf_file in /etc/nginx/conf.d/*.conf*; do
+    for conf_file in /opt/nginx/http.conf.d/*.conf*; do
         if keyfiles_exist $conf_file; then
             if [ ${conf_file##*.} = nokey ]; then
                 echo "Found all the keyfiles for $conf_file, enabling..."
@@ -99,8 +99,8 @@ is_renewal_required() {
 # We make use of `envsubst` to allow for on-the-fly templating
 # of the user configs.
 template_user_configs() {
-    SOURCE_DIR="${1-/etc/nginx/user.conf.d}"
-    TARGET_DIR="${2-/etc/nginx/conf.d}"
+    SOURCE_DIR="${1-/opt/nginx/user.conf.d}"
+    TARGET_DIR="${2-/opt/nginx/http.conf.d}"
 
     # envsubst needs dollar signs in front of all variable names
     DENV=$(echo ${ENVSUBST_VARS} | sed -E 's/\$*([^ ]+)/\$\1/g')

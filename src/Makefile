@@ -10,6 +10,3 @@ all: build
 build: Makefile Dockerfile
 	$(DOCKER_BUILD) -t wardvanlerberghe/nginx-certbot .
 	@echo "Done!  Use docker run wardvanlerberghe/nginx-certbot to run"
-
-push:
-	docker push staticfloat/nginx-certbot
