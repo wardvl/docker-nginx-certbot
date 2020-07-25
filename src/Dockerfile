@@ -27,6 +27,7 @@ RUN apt-get update && apt-get -y upgrade && \
 
 # Copy in scripts for certbot
 COPY nginx.conf /opt/nginx/conf/nginx.conf
+COPY nginx_conf.d/ /opt/nginx/conf.d/
 COPY scripts/zero_downtime_reload.sh /opt/nginx/sbin/zero_downtime_reload.sh
 COPY ./scripts/ /scripts
 RUN chmod +x /scripts/*.sh
@@ -36,7 +37,6 @@ RUN mkdir -p /scripts/startup
 
 # Copy in default nginx configuration (which just forwards ACME requests to
 # certbot, or redirects to HTTPS, but has no HTTPS configurations by default).
-COPY nginx_conf.d/ /opt/nginx/http.conf.d/
 
 ENTRYPOINT []
 CMD ["/bin/bash", "/scripts/entrypoint.sh"]
