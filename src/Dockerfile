@@ -14,6 +14,7 @@ RUN apt-get update && apt-get -y upgrade && \
     ./configure --prefix=/opt/nginx --user=nginx --group=nginx --with-http_ssl_module --with-ipv6 --with-threads --with-stream --with-stream_ssl_module --with-http_v2_module && \
     make && make install && \
     cd .. && rm -rf nginx-1.* && \
+    apt-get install -y nginx-extras && \
     adduser --system --no-create-home --disabled-login --disabled-password --group nginx && \
     mkdir /opt/nginx/http.conf.d && mkdir /opt/nginx/stream.conf.d && \
     curl -L 'https://bootstrap.pypa.io/get-pip.py' | python3 && \
